@@ -4,7 +4,7 @@ const pkg = require('./package');
 module.exports = {
   mode: 'universal',
   publicPath: 'public',
-  srcDir: 'src',
+  buildDir: '../functions/nuxt',
 
   head: {
     title: pkg.name,
@@ -19,10 +19,10 @@ module.exports = {
   loading: { color: '#fff' },
   css: ['element-ui/lib/theme-chalk/index.css', 'normalize.css'],
   sassResources: [
-    path.resolve(__dirname, 'src/assets/styles/settings/variables.scss'),
-    path.resolve(__dirname, 'src/assets/styles/mixins/media-queries.scss'),
-    path.resolve(__dirname, 'src/assets/styles/global/typography.scss'),
-    path.resolve(__dirname, 'src/assets/styles/global/index.scss'),
+    path.resolve(__dirname, 'assets/styles/settings/variables.scss'),
+    path.resolve(__dirname, 'assets/styles/mixins/media-queries.scss'),
+    path.resolve(__dirname, 'assets/styles/global/typography.scss'),
+    path.resolve(__dirname, 'assets/styles/global/index.scss'),
   ],
 
   plugins: ['~/plugins/element-ui', '~/plugins/firebase'],
@@ -32,7 +32,7 @@ module.exports = {
       '@nuxtjs/dotenv',
       {
         systemvars: true,
-        path: './',
+        path: '../',
       },
     ],
     'nuxt-sass-resources-loader',
