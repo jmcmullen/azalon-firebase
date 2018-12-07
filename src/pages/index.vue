@@ -1,21 +1,17 @@
 <template>
   <section class="container">
     <div>
-      <logo/>
-      <h1 class="title">Azalon Panel</h1>
-      <h2 class="subtitle">Management panel for Azalon Licencing System.</h2>
+      <h1 class="title">Azalon</h1>
+      <h2 class="subtitle">Licencing System.</h2>
+      <nuxt-link to="/login">
+        <el-button type="primary">Take me to the login area</el-button>
+      </nuxt-link>
     </div>
   </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
-
-export default {
-  components: {
-    Logo,
-  },
-};
+export default {};
 </script>
 
 <style>
@@ -35,6 +31,7 @@ export default {
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
+  margin-bottom: 0;
 }
 
 .subtitle {
@@ -42,10 +39,6 @@ export default {
   font-size: 42px;
   color: #526488;
   word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  padding-bottom: 35px;
 }
 </style>

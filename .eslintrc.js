@@ -2,10 +2,10 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    node: true
+    node: true,
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
   },
   extends: ['plugin:vue/recommended', 'plugin:prettier/recommended'],
   // required to lint *.vue files
@@ -20,25 +20,40 @@ module.exports = {
         singleline: 3,
         multiline: {
           max: 1,
-          allowFirstLine: false
-        }
-      }
+          allowFirstLine: false,
+        },
+      },
     ],
     'vue/html-self-closing': [
       'error',
       {
         html: {
-          normal: 'any'
-        }
-      }
+          normal: 'any',
+        },
+      },
     ],
     'vue/html-indent': [
       2,
       2,
       {
         attribute: 1,
-        closeBracket: 0
-      }
-    ]
-  }
-}
+        closeBracket: 0,
+      },
+    ],
+  },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: {
+          resolve: {
+            extensions: ['.js', '.vue'],
+            alias: {
+              '@': __dirname,
+              '~': __dirname,
+            },
+          },
+        },
+      },
+    },
+  },
+};
