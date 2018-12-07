@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-width: fit-content;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+}
+
+*,
+:after,
+:before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+img {
+    height: auto;
+    max-width: 100%;
+}
+
+img[lazy='loading'] {
+    opacity: 0;
+}
+
+img[lazy='loaded'] {
+    opacity: 1;
+    transition: all 0.3s;
+}
+
+.container {
+    max-width: $fullhd;
+    width: 100%;
+    margin: auto;
+}
+
+.page-enter-active,
+.page-leave-active {
+    transition: opacity 0.3s;
+}
+
+.page-enter,
+.page-leave-to {
+    opacity: 0;
+}

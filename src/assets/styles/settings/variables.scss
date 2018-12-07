@@ -1,0 +1,10 @@
+$color-primary: black;
+$color-secondary: gray;
+
+// Responsiveness
+// These numbers are divisible by both 12 and 16
+$gap: 64px !default;
+$tablet: 769px !default;
+$desktop: 960px + (2 * $gap) !default;
+$widescreen: 1152px + (2 * $gap) !default;
+$fullhd: 1344px + (2 * $gap) !default;
