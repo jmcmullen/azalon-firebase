@@ -1,6 +1,9 @@
 import path from 'path';
 import pkg from './package';
 
+// Manually load our dotenv config.
+require('dotenv').config();
+
 module.exports = {
   mode: 'universal',
   srcDir: 'src',
@@ -25,18 +28,7 @@ module.exports = {
   ],
 
   plugins: ['~/plugins/element-ui'],
-  modules: [
-    '@nuxtjs/axios',
-    [
-      '@nuxtjs/dotenv',
-      {
-        systemvars: true,
-        path: './',
-      },
-    ],
-    'nuxt-sass-resources-loader',
-    'nuxt-fire',
-  ],
+  modules: ['@nuxtjs/axios', 'nuxt-sass-resources-loader', 'nuxt-fire'],
 
   fire: {
     customEnv: true,
@@ -102,3 +94,5 @@ module.exports = {
 
   vendor: ['axios', 'babel-polyfill'],
 };
+
+console.log('projectId', process.env.FIRE_PROJECT_ID);
