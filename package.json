@@ -11,7 +11,8 @@
     "generate": "cross-env FIRE_ENV=dotEnv nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
-    "deploy": "firebase deploy --only hosting --project azalon-513f8"
+    "deploy": "firebase deploy --only hosting --project $FIRE_PROJECT_ID",
+    "deploy:ci": "firebase deploy --token=$FIRE_TOKEN --non-interactive --project=$FIRE_PROJECT_ID"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",

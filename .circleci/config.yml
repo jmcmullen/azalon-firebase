@@ -13,7 +13,7 @@ jobs:
           command: npm run generate
       - run:
           name: Deploy to Firebase
-          command: firebase deploy --token=$FIRE_TOKEN --non-interactive --project=$FIRE_PROJECT_ID
+          command: npm run deploy:ci
 
 workflows:
   version: 2
