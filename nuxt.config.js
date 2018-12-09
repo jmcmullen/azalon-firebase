@@ -1,9 +1,8 @@
 import path from 'path';
-const pkg = require('./package');
+import pkg from './package';
 
 module.exports = {
   mode: 'universal',
-  publicPath: 'public',
   srcDir: 'src',
 
   head: {
@@ -25,7 +24,7 @@ module.exports = {
     path.resolve(__dirname, 'src/assets/styles/global/index.scss'),
   ],
 
-  plugins: ['~/plugins/element-ui', '~/plugins/firebase'],
+  plugins: ['~/plugins/element-ui'],
   modules: [
     '@nuxtjs/axios',
     [
@@ -36,15 +35,31 @@ module.exports = {
       },
     ],
     'nuxt-sass-resources-loader',
+    'nuxt-fire',
   ],
 
+  fire: {
+    customEnv: true,
+    useOnly: ['auth', 'firestore', 'functions', 'storage', 'realtimeDb'],
+    config: {
+      dotEnv: {
+        apiKey: process.env.FIRE_API_KEY,
+        authDomain: process.env.FIRE_AUTH_DOMAIN,
+        databaseURL: process.env.FIRE_DB_URL,
+        projectId: process.env.FIRE_PROJECT_ID,
+        storageBucket: process.env.FIRE_STORAGE_BUCKET,
+        messagingSenderId: process.env.FIRE_MESSAGEING_SENDER,
+      },
+    },
+  },
+
   env: {
-    FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-    FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_API_KEY,
-    FIREBASE_DB_URL: process.env.FIREBASE_API_KEY,
-    FIREBASE_PROJECT_ID: process.env.FIREBASE_API_KEY,
-    FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_API_KEY,
-    FIREBASE_MESSAGEING_SENDER: process.env.FIREBASE_API_KEY,
+    FIRE_API_KEY: process.env.FIRE_API_KEY,
+    FIRE_AUTH_DOMAIN: process.env.FIRE_AUTH_DOMAIN,
+    FIRE_DB_URL: process.env.FIRE_DB_URL,
+    FIRE_PROJECT_ID: process.env.FIRE_PROJECT_ID,
+    FIRE_STORAGE_BUCKET: process.env.FIRE_STORAGE_BUCKET,
+    FIRE_MESSAGEING_SENDER: process.env.FIRE_MESSAGEING_SENDER,
   },
 
   build: {
@@ -66,6 +81,10 @@ module.exports = {
         });
       }
     },
+  },
+
+  generate: {
+    fallback: true,
   },
 
   babel: {

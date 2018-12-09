@@ -27,8 +27,6 @@
 </template>
 
 <script>
-import { auth } from '~/plugins/firebase';
-
 export default {
   data() {
     return {
@@ -60,21 +58,25 @@ export default {
     };
   },
   mounted() {
-    if (auth.currentUser) {
+    // Redirct if already authenticated.
+    if (this.$fireAuth.currentUser) {
       this.$router.push('/dashboard');
     }
+
+    // If firebase is loaded after mounted redirect if authenticated.
+    this.$fireAuth.onAuthStateChanged(user => {
+      if (user) this.$router.push('/dashboard');
+    });
   },
   methods: {
     onSubmit() {
-      console.log('yay');
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           try {
-            const resp = await auth.signInWithEmailAndPassword(
+            await this.$fireAuth.signInWithEmailAndPassword(
               this.loginForm.email,
               this.loginForm.password
             );
-            console.log(resp);
             this.$router.push('/dashboard');
           } catch (error) {
             this.$message.error(error);
