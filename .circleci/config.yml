@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.14.1-jessie
+    steps:
+      - checkout
+      - run:
+          name: Generate static site
+          command: npm run generate
+      - run:
+          name: Deploy to Firebase
+          command: firebase deploy --token=$FIREBASE_TOKEN --non-interactive

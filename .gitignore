@@ -83,3 +83,6 @@ dist
 
 # DotEnv
 .env
+
+# Firebase data
+.firebase
