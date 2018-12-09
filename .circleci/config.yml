@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install dependencies
+          command: npm install
+      - run:
           name: Generate static site
           command: npm run generate
       - run:
