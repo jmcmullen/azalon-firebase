@@ -1,7 +1,7 @@
 <template>
   <el-form
-    ref="loginForm"
-    :model="loginForm"
+    ref="signUpForm"
+    :model="signUpForm"
     :rules="loginRules"
     status-icon
     label-width="120px"
@@ -15,13 +15,13 @@
       <nuxt-link to="/login">login here</nuxt-link>.
     </p>
     <el-form-item label="Email" prop="email">
-      <el-input v-model="loginForm.email" type="text"/>
+      <el-input v-model="signUpForm.email" type="text"/>
     </el-form-item>
     <el-form-item label="Password" prop="password">
-      <el-input v-model="loginForm.password" type="password"/>
+      <el-input v-model="signUpForm.password" type="password"/>
     </el-form-item>
     <el-form-item label="Verify Password" prop="verifyPassword">
-      <el-input v-model="loginForm.verifyPassword" type="password"/>
+      <el-input v-model="signUpForm.verifyPassword" type="password"/>
     </el-form-item>
     <el-form-item>
       <el-button @click="onSubmit">Sign Up</el-button>
@@ -33,7 +33,7 @@
 export default {
   data() {
     return {
-      loginForm: {
+      signUpForm: {
         email: '',
         password: '',
       },
@@ -46,7 +46,7 @@ export default {
           },
           {
             type: 'email',
-            message: 'Please enter a valid email address.',
+            message: 'Please enter a valid email address',
             trigger: ['blur', 'change'],
           },
         ],
@@ -54,6 +54,13 @@ export default {
           {
             required: true,
             message: `Your password can't be blank`,
+            trigger: 'blur',
+          },
+        ],
+        verifyPassword: [
+          {
+            required: true,
+            validator: this.verifyPassword,
             trigger: 'blur',
           },
         ],
@@ -73,14 +80,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.loginForm.validate(async valid => {
+      this.$refs.signUpForm.validate(async valid => {
         if (valid) {
           try {
-            await this.$fireAuth.signInWithEmailAndPassword(
-              this.loginForm.email,
-              this.loginForm.password
+            await this.$fireAuth.createUserWithEmailAndPassword(
+              this.signUpForm.email,
+              this.signUpForm.password
             );
-            this.$router.push('/dashboard');
+            this.$router.push('/login');
           } catch (error) {
             this.$message.error(error);
           }
@@ -88,6 +95,15 @@ export default {
           return false;
         }
       });
+    },
+    verifyPassword(rule, value, callback) {
+      if (value === '') {
+        callback(new Error(`Your password can't be blank`));
+      } else if (value !== this.signUpForm.password) {
+        callback(new Error(`Both password fields must be the same`));
+      } else {
+        callback();
+      }
     },
   },
 };

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Form from '~/components/pages/sign-up/SignUpForm';
+import SignUpForm from '~/components/pages/sign-up/SignUpForm';
 
 export default {
   components: {

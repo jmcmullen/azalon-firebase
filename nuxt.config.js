@@ -3,6 +3,7 @@ import pkg from './package';
 
 // Manually load our dotenv config.
 require('dotenv').config();
+console.log('projectId', process.env.FIRE_PROJECT_ID);
 
 module.exports = {
   mode: 'universal',
@@ -94,5 +95,3 @@ module.exports = {
 
   vendor: ['axios', 'babel-polyfill'],
 };
-
-console.log('projectId', process.env.FIRE_PROJECT_ID);
