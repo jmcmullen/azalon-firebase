@@ -5,12 +5,12 @@
     :rules="loginRules"
     status-icon
     label-width="120px"
-    class="login-form"
+    class="sign-up-form"
     @keyup.enter.native="onSubmit"
   >
-    <h2 class="login-form__title">Create an account</h2>
+    <h2 class="sign-up-form__title">Create an account</h2>
     <p
-      class="login-form__desc"
+      class="sign-up-form__desc"
     >Fill out the form below to sign up. If you already have an account you can
       <nuxt-link to="/login">login here</nuxt-link>.
     </p>
@@ -87,7 +87,7 @@ export default {
               this.signUpForm.email,
               this.signUpForm.password
             );
-            this.$router.push('/login');
+            this.$router.push('/sign-up/verify');
           } catch (error) {
             this.$message.error(error);
           }
@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style lang="scss">
-.login-form {
+.sign-up-form {
   width: 400px;
   display: block;
   margin: 2rem auto;
