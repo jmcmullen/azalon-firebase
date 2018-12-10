@@ -6,7 +6,7 @@
     status-icon
     label-width="120px"
     class="verify-form"
-    @keyup.enter.native="onSubmit"
+    @keyup.enter.native="onResendEmail"
   >
     <h2 class="verify-form__title">Email verification needed</h2>
     <p class="verify-form__desc">We've sent you an email. Please click the link inside.
@@ -16,7 +16,8 @@
       <el-input v-model="verifyForm.email" type="text"/>
     </el-form-item>
     <el-form-item>
-      <el-button @click="onSubmit">Resend Email</el-button>
+      <el-button @click="onResendEmail">Resend Email</el-button>
+      <el-button @click="onCheckAgain">Check Again</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -46,9 +47,12 @@ export default {
           },
         ],
       },
+      sentVerification: false,
     };
   },
   mounted() {
+    this.sentVerification = window.localStorage.getItem('sentVerification');
+
     if (this.$fireAuth.currentUser) {
       this.currentUser = this.$fireAuth.currentUser;
       this.verifyForm.email = this.currentUser.email;
@@ -56,6 +60,8 @@ export default {
       // Redirct if already verified email.
       if (this.currentUser.emailVerified) {
         this.$router.push('/dashboard');
+      } else {
+        this.sendEmail();
       }
     }
 
@@ -68,12 +74,17 @@ export default {
         // Redirect on verifcation.
         if (user.emailVerified) {
           this.$router.push('/dashboard');
+        } else if (!this.sentVerification) {
+          this.sendEmail();
         }
       }
     });
   },
   methods: {
-    onSubmit() {
+    onCheckAgain() {
+      location.reload();
+    },
+    onResendEmail() {
       this.$refs.verifyForm.validate(async valid => {
         if (valid) {
           try {
@@ -82,27 +93,35 @@ export default {
               await this.currentUser.updateEmail(this.verifyForm.email);
               this.currentUser = this.$fireAuth.currentUser;
             }
-
-            // Send verification email.
-            await this.currentUser.sendEmailVerification();
-            this.$message.success(
-              `We've sent a new email to ${this.currentUser.email}`
-            );
           } catch (error) {
             this.$message.error(error);
-
-            console.log(error);
-
-            // Can't change email unless logged in recently.
-            if (error.code === 'auth/requires-recent-login') {
-              this.$fireAuth.signOut();
-              this.$router.push('/login');
-            }
+          } finally {
+            this.sendEmail();
           }
         } else {
           return false;
         }
       });
+    },
+    async sendEmail() {
+      try {
+        // Send verification email.
+        await this.currentUser.sendEmailVerification();
+        this.$message.success(
+          `We've sent a new email to ${this.currentUser.email}`
+        );
+      } catch (error) {
+        this.$message.error(error);
+
+        // Can't change email unless logged in recently.
+        if (error.code === 'auth/requires-recent-login') {
+          this.$fireAuth.signOut();
+          this.$router.push('/login');
+        }
+      } finally {
+        this.sentVerification = true;
+        window.localStorage.setItem('sentVerification', true);
+      }
     },
   },
 };
